@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <form method="post" action="/asignar" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="codigo" class="col-md-12">C&oacute;digo</label>
+                            <div class="col-md-4">
+                                <input type="text" name="busqueda" id="busqueda" class="form-control">
+                            </div>
+                            <span class="col-md-8 articulo"></span>
+                        </div>
+                        <div class = "oculto"></div>
+                        <div class="form-group">
+
+                                <% if(filas) { %>
+                                    <label for="vehiculos" class="col-md-12">Veh&iacute;culos</label>
+                                    <div class="col-md-4">
+                                    <select id="vehiculos" id="vehiculos" class="form-control">
+                                        <% for(var i = 0; i < filas.length; i++) { %>
+                                            <option value="<%= filas[i].id_vehiculo %>"><%= filas[i].matricula %></option>
+                                            <% console.log(filas[i].matricula) %>
+                                            <% } %>
+                                        </select>
+                                        <% } %>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad" class="col-md-12">Cantidad</label>
+                            <div class="col-md-4">
+                                <input type="text" name="cantidad" id="cantidad" class="form-control">
+                            </div>
+                        </div>
+
+                        <button id="boton" class="btn btn-success" type="submit">Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+    <script type="text/javascript">
+        $('#busqueda').keyup(function(ev) {
+            //console.log($('#articulo').data('id'))
+            var valor = $(this).val()
+            var oc = $('.oculto')
+            if(valor) {
+                $.post('/articulos/search', {texto: valor}, function(res) {
+                    if(res.filas.length > 0) {
+                        var art = $('.articulo')
+                        art.html(res.filas[0].nombre)
+                        art.data('id', res.filas[0].id_articulo)
+                        art.data('cantidad', res.filas[0].cantidad)
+                        art.data('minimo', res.filas[0].minimo)
+                        console.log(art.data('id'))
+
+                        oc.show()
+                        if(res.filas[0].foto !== '0') {
+
+                            oc.html('<img src="../fotos/' + res.filas[0].foto + '" style="width: 100px; height: 100px;" ><span style="margin-left:0.9em;">Stock actual: '+ res.filas[0].cantidad+'</span>')
+                        } else {
+                            oc.html('<span style="margin-left:0.9em;">Stock actual: '+ res.filas[0].cantidad+'</span>')
+                        }
+                    } else {
+                        var art = $('.articulo')
+                        oc.html('')
+                        art.html('')
+                    }
+
+                }, 'json')
+            } else {
+                var art = $('.articulo')
+                oc.html('')
+                art.html('')
+            }
+        })
+
+        $('#boton').click(function(ev) {
+            ev.preventDefault()
+            var arti = $('.articulo').data()
+            var id_articulo = arti.id
+            var cantidadArt = arti.cantidad
+            var cantidad = $('#cantidad').val()
+            var minimo = arti.minimo
+            $.post('/asignar', {id_articulo: id_articulo, cantidad: cantidad, cantidadart: cantidadArt, minimo: minimo, id_vehiculo: $('#vehiculos').val(), nombre: $('.articulo').html()}, function(res) {
+                console.log('Ok')
+            },'json')
+        })
+
+    </script>
+    <% include ../partials/footer %>
+</body>
+</html>

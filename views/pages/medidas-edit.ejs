@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <form method="post" action="/medidas/edit/<%= metro[0].id_medida %>" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="medida" class="col-md-12">Matr&iacute;cula</label>
+                            <div class="col-md-3">
+                                <input type="text" name="medida" id="medida" value="<%= metro[0].medida %>" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="abreviatura" class="col-md-12">Matr&iacute;cula</label>
+                            <div class="col-md-3">
+                                <input type="text" name="abreviatura" id="abreviatura" value="<%= metro[0].abreviatura %>" class="form-control">
+                            </div>
+                        </div>
+                    
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+
+    <% include ../partials/footer %>
+</body>
+</html>

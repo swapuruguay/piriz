@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <form method="post" action="/articulos" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="codigo" class="col-md-12">C&oacute;digo</label>
+                            <div class="col-md-4">
+                                <input type="text" name="busqueda" id="busqueda" class="form-control">
+                            </div>
+                            <span class="col-md-8 articulo"></span>
+                        </div>
+                        <div class = "oculto"></div>
+
+                    <div class="form-group">
+                        <label for="cantidad" class="col-md-12">Cantidad</label>
+                        <div class="col-md-4">
+                            <input type="text" name="cantidad" id="cantidad" class="form-control">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+    <script type="text/javascript">
+        $('#busqueda').keyup(function(ev) {
+            //console.log($('#articulo').data('id'))
+            var valor = $(this).val()
+            var oc = $('.oculto')
+            if(valor) {
+                $.post('/articulos/search', {texto: valor}, function(res) {
+                    if(res.filas.length > 0) {
+                        var art = $('.articulo')
+                        art.html(res.filas[0].nombre)
+                        art.data('id', res.filas[0].id_articulo)
+                        console.log(art.data('id'))
+
+                        oc.show()
+                        if(res.filas[0].foto !== '0') {
+
+                            oc.html('<img src="../fotos/' + res.filas[0].foto + '" style="width: 100px; height: 100px;" >')
+                        }
+                    } else {
+                        var art = $('.articulo')
+                        oc.html('')
+                        art.html('')
+                    }
+
+                }, 'json')
+            } else {
+                var art = $('.articulo')
+                oc.html('')
+                art.html('')
+            }
+        })
+
+        $('.btn').click(function(ev) {
+            ev.preventDefault()
+            var id = $('.articulo').data('id')
+            var cantidad = $('#cantidad').val()
+            $.post('/articulos/alta', {id: id, cantidad: cantidad}, function(res) {
+                console.log('Ok')
+            },'json')
+        })
+
+    </script>
+    <% include ../partials/footer %>
+</body>
+</html>

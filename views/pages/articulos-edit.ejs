@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <form method="post" action="/articulos/edit/<%= art.id_articulo %>" enctype="multipart/form-data"  class="form-horizontal">
+                        <div class="form-group">
+                            <label for="codigo" class="col-md-12">C&oacute;digo</label>
+                            <div class="col-md-3">
+                                <input type="text" name="codigo" id="codigo" value="<%= art.codigo %>" class="form-control">
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="col-md-12">Nombre</label>
+                        <div class="col-md-6">
+                            <input type="text" name="nombre" id="nombre" value="<%= art.nombre %>" class="form-control">
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <label for="descripcion" class="col-md-12">Descripci&oacute;n</label>
+                    <div class="col-md-12">
+                        <input type="text" name="descripcion" id="descripcion" value="<%= art.descripcion %>" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="medida" class="col-md-12">Medida</label>
+                    <div class="col-md-6">
+                        <% if(filas) { %>
+                            <select name="medida" id="medida" class="form-control">
+                                <% filas.forEach(function(fila) { %>
+                                    <option value="<%= fila.id_medida %>"><%= fila.abreviatura %></option>
+                                    <% }) %>
+                                </select>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="minimo" class="col-md-12">Stock M&iacute;nimo</label>
+                            <div class="col-md-6">
+                                <input type="text" name="minimo" id="minimo" value="<%= art.minimo %>" class="form-control">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="foto" class="col-md-12">Imagen</label>
+                            <div class="col-md-6">
+
+                                <input type="file" name="foto" id="foto" value="Seleccionar" class="form-control">
+                            </div>
+                            <% if(art.foto != 0) { %>
+                                <img id="img-previa" src="/fotos/<%= art.foto %>" alt="Mi imagen" class="img-thumbnail" style="height:128px; width:96px;">
+                                <input type="hidden" name="url" id="url" value="<%= art.foto %>" />
+                            <%  } else { %>
+                                 <img id="img-previa" src="/img/rep.png" alt="Mi imagen" class="img-thumbnail" style="height:128px; width:96px;">
+                                 <input type="hidden" name="url" id="url" />
+                            <% } %>
+
+                        </div>
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+    <script>
+        function mostrarImagen(input) {
+         if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+           $('#img-previa').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+         }
+        }
+         
+        $("#foto").change(function(){
+         mostrarImagen(this);
+        });
+    </script>
+    <% include ../partials/footer %>
+</body>
+</html>

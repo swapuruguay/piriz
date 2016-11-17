@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de veh&iacute;culos</title>
+</head>
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+
+        <% if(filas) { %>
+            <table class="table-striped table-bordered table-condensed">
+                <tr>
+                    <th>Id</th>
+                    <th>C&oacute;digo</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                <% filas.forEach(function(fila) { %>
+                    <tr>
+                        <td><%= fila.id_articulo %></td><td><%= fila.codigo %></td><td><%= fila.nombre %></td><td><%= fila.cantidad %></td><td class="text-center"><a href="/articulos/edit/<%= fila.id_articulo %>" class="fa fa-pencil"></a></td><td class="text-center"><a href="/articulos/delete/<%= fila.id_articulo %>" class="fa fa-trash"></a></td>
+                    </tr>
+                <% }) %>
+            </table>
+         <% } %>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <p>¿Seguro que quiere eliminar el vehículo Matrícula <%= tutu.matricula %>?</p>
+                    <button class="btn btn-primary" data-id="<%= tutu.id_vehiculo %>">Sí</button> <button class="btn btn-warning">No</button>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+    <script type="text/javascript">
+        var boton = $('.btn-primary')
+        boton.click(function(ev) {
+            ev.preventDefault()
+            $.post(`/vehiculos/delete/${boton.data('id')}`, function(res) {
+                window.location.href = '/vehiculos/listar'
+            }, 'json')
+        })
+        $('.btn-warning').click(function(ev) {
+            ev.preventDefault()
+            history.back(1)
+        })
+    </script>
+    <% include ../partials/footer %>
+</body>
+</html>

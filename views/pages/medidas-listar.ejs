@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de medidas</title>
+</head>
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+
+        <% if(filas) { %>
+            <table class="table-striped table-bordered table-condensed">
+                <tr>
+                    <th>Id</th>
+                    <th>Medida</th>
+                    <th>Abreviatura</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                <% filas.forEach(function(fila) { %>
+                    <tr>
+                        <td><%= fila.id_medida %></td></td><td><%= fila.medida %></td><td><%= fila.abreviatura %></td><td class="text-center"><a href="/medidas/edit/<%= fila.id_medida %>" class="fa fa-pencil"></a></td><td class="text-center"><a href="/medidas/delete/<%= fila.id_medida %>" class="fa fa-trash"></a></td>
+                    </tr>
+                <% }) %>
+            </table>
+         <% } %>
+    </div>
+
+</body>
+</html>

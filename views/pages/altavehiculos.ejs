@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body>
+    <%- cabecera -%>
+    <div class="container">
+        <main>
+            <div class="row">
+                <div class="col-md-6" >
+                    <form method="post" action="/vehiculos/alta" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="matricula" class="col-md-12">Matr&iacute;cula</label>
+                            <div class="col-md-3">
+                                <input type="text" name="matricula" id="matricula" class="form-control">
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                        <label for="descripcion" class="col-md-12">Descripcion</label>
+                        <div class="col-md-6">
+                            <input type="text" name="descripcion" id="descripcion" class="form-control">
+                        </div>
+                    </div>
+
+
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <p></p>
+    <script type="text/javascript">
+        function mostrarImagen(input) {
+         if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+           $('#img-previa').attr('src', e.target.result);
+          }
+          reader.readAsDataURL(input.files[0]);
+         }
+        }
+         
+        $("#foto").change(function(){
+         mostrarImagen(this);
+        });
+    </script>
+    <% include ../partials/footer %>
+</body>
+</html>
